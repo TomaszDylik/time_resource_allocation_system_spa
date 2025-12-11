@@ -12,7 +12,6 @@ const Login = () => {
   const onSubmit = (data) => {
     const success = login(data.email, data.password);
     if (success) {
-      // Przekierowanie w zależności od roli (możemy to potem ulepszyć)
       navigate('/dashboard'); 
     } else {
       setLoginError('Nieprawidłowy email lub hasło');
@@ -49,7 +48,7 @@ const Login = () => {
 
         {loginError && <div>{loginError}</div>}
 
-        <button type="submit" className="btn btn--primary">
+        <button type="submit">
           Zaloguj się
         </button>
       </form>
