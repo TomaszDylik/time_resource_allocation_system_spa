@@ -1,41 +1,34 @@
-import { useDatabase } from './context/DatabaseContext';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { useAuth, AuthProvider } from './context/AuthContext';
+import Login from './pages/Login';
 
-function App() {
-  const { users, resources, reservations } = useDatabase();
-
+const Dashboard = () => {
+  const { user, logout } = useAuth();
   return (
     <div>
-      <h1>Test bazy</h1>
-
-      <div>
-        <h3>Użytkownicy ({users.length})</h3>
-        <ul>
-          {users.map(u => (
-            <li key={u.id}>
-              {u.name} ({u.role})
-            </li>
-          ))}
-        </ul>
-
-        <h3>Zasoby ({resources.length})</h3>
-        <ul>
-          {resources.map(r => (
-            <li key={r.id}>
-              {r.name} ({r.type})
-            </li>
-          ))}
-        </ul>
-
-        <h3>Rezerwacje ({reservations.length})</h3>
-        <ul>
-          {reservations.map(res => (
-            <li key={res.id}>
-              ID: {res.id}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h1>{user?.name}</h1>
+      <p>{user?.role}</p>
+      <button onClick={logout}>Wyloguj</button>
     </div>
+  );
+};
+
+const ProtectedRoute = () => {
+  const { user } = useAuth();
+  return user ? <Outlet /> : <Navigate to="/login" />;
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <Routes>
+        <Route path="/login" element={<Login />} />``
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
 }
 

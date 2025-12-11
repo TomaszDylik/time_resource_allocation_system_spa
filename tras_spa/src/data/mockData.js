@@ -3,15 +3,15 @@ export const INITIAL_DATA = {
 users: [
     {
         id: 1,
-        name: 'Admin ',
-        email: 'admin@tras.pl',
+        name: 'Admin',
+        email: 'admin@spa.pl',
         role: 'admin',
         password: 'password'
     },
     {
         id: 2,
-        name: 'User',
-        email: 'user@tras.pl',
+        name: 'Jan Kowalski',
+        email: 'jan@spa.pl',
         role: 'user',
         password: 'password'
     }],
