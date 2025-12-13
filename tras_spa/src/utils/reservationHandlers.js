@@ -1,0 +1,85 @@
+import { isReservationConflicting } from './collisonLogic';
+
+// confirmation function
+export function handleApprove(reservationId, allReservations, allUsers, allResources, saveDataFunction) {
+  // approved
+  const approvedReservations = allReservations.filter(function(reservation) {
+    return reservation.status === 'approved';
+  });
+  
+  // find target reservation
+  const targetReservation = allReservations.find(function(reservation) {
+    return reservation.id === reservationId;
+  });
+  
+  // check conflicts
+  const hasConflict = isReservationConflicting(
+    targetReservation.startTime,
+    targetReservation.endTime,
+    targetReservation.resourceId,
+    approvedReservations
+  );
+  // if conflict alert and stop
+  if (hasConflict) {
+    alert('Nie można zatwierdzić - istnieje konflikt z inną zatwierdzoną rezerwacją!');
+    return;
+  }
+
+  // if no conflict approve
+  const updatedReservations = allReservations.map(function(reservation) {
+    // change status to approved
+    if (reservation.id === reservationId) {
+      const approvedReservation = {
+        id: reservation.id,
+        userId: reservation.userId,
+        resourceId: reservation.resourceId,
+        startTime: reservation.startTime,
+        endTime: reservation.endTime,
+        status: 'approved' // main change
+      };
+      return approvedReservation;
+    } else {
+      return reservation;
+    }
+  });
+
+  // object to save
+  const dataToSave = {
+    users: allUsers,
+    resources: allResources,
+    reservations: updatedReservations
+  };
+  
+  // push to localStorage
+  saveDataFunction(dataToSave);
+}
+
+// rejection function
+export function handleReject(reservationId, allReservations, allUsers, allResources, saveDataFunction) {
+  // change status to rejected
+  const updatedReservations = allReservations.map(function(reservation) {
+    if (reservation.id === reservationId) {
+      const rejectedReservation = {
+        id: reservation.id,
+        userId: reservation.userId,
+        resourceId: reservation.resourceId,
+        startTime: reservation.startTime,
+        endTime: reservation.endTime,
+        status: 'rejected' // main change
+      };
+      return rejectedReservation;
+    } else {
+      return reservation;
+    }
+  });
+
+  // object to save
+  const dataToSave = {
+    users: allUsers,
+    resources: allResources,
+    reservations: updatedReservations
+  };
+  
+  // save to localStorage
+  saveDataFunction(dataToSave);
+}

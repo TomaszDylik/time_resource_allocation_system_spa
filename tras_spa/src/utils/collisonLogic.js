@@ -3,7 +3,7 @@ export const isReservationConflicting = (newStart, newEnd, resourceId, allReserv
     const start = new Date(newStart).getTime();
     const end = new Date(newEnd).getTime();
 
-    for (let reservation of allReservations) {       
+    for (let reservation of allReservations) {
         
         if (
             reservation.resourceId === resourceId &&

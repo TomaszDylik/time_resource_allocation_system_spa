@@ -31,6 +31,11 @@ resources: [
         id: 3,
         name: 'Strzyżenie + Broda',
         duration: 90,
+    },
+    {
+        id: 4,
+        name: 'Koloryzacja brody',
+        duration: 30,
     }],
 
 reservations: [
@@ -38,7 +43,24 @@ reservations: [
         id: 1,
         userId: 2,
         resourceId: 1,
-        startTime: new Date().setHours(10, 0, 0, 0)+86400000, // tmrw at 10:00 AM
-        endTime: new Date().setHours(11, 0, 0, 0)+86400000,   // tmwr at 11:00 AM
+        startTime: new Date().setHours(14, 0, 0, 0) + 86400000, // jutro 14:00
+        endTime: new Date().setHours(15, 0, 0, 0) + 86400000,   // jutro 15:00
+        status: 'pending' 
+    },
+    {
+        id: 2,
+        userId: 2,
+        resourceId: 2,
+        startTime: new Date().setHours(10, 0, 0, 0) + 172800000, // pojutrze 10:00
+        endTime: new Date().setHours(10, 30, 0, 0) + 172800000,
+        status: 'approved'
+    },
+    {
+        id: 3,
+        userId: 2,
+        resourceId: 1,
+        startTime: new Date().setHours(16, 0, 0, 0) + 259200000, // za 3 dni 16:00
+        endTime: new Date().setHours(17, 0, 0, 0) + 259200000,
+        status: 'rejected'
     }]
 };
