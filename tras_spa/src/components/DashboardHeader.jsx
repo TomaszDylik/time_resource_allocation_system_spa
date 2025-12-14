@@ -4,10 +4,10 @@ function DashboardHeader(props) {
   const title = props.title;
   
   return (
-    <div>
-      <h1>{title} - {currentUser?.name}</h1>
+    <div className="dashboard-header">
+      <h1 className="dashboard-title">{title} - {currentUser?.name}</h1>
       
-      <button onClick={logoutFunction}>Wyloguj</button>
+      <button className="logout-button" onClick={logoutFunction}>Wyloguj</button>
     </div>
   );
 }

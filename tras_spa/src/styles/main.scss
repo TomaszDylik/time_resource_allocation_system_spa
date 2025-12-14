@@ -1,0 +1,845 @@
+@use 'sass:color';
+
+// modern login page colors
+$login-bg: #f5f5f0;           // delikatne kremowe tlo
+$login-card-bg: #ffffff;       // biala karta
+$login-primary: #2c5f8d;       // stonowany niebieski
+$login-text: #2d3748;          // ciemny tekst
+$login-border: #e2e2db;        // delikatne obramowanie
+$login-input-bg: #fafaf8;      // bardzo jasne tlo inputow
+$login-error: #dc2626;         // czerwony na bledy
+$login-error-bg: #fee2e2;      // jasnocerwone tlo bledow
+$login-success: #10b981;       // zielony przycisk
+$login-info-bg: #f3f4f6;       // szare tlo info
+
+// import font 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+// reset 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// login page
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $login-bg;
+  padding: 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card {
+  background-color: $login-card-bg;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid $login-border;
+
+  @media (min-width: 768px) {
+    padding: 3rem 2.5rem;
+  }
+}
+
+.login-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+  color: $login-primary;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.login-subtitle {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+// formularz logowania
+.login-form {
+  margin-top: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $login-text;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 0.95rem;
+  color: $login-text;
+  background-color: $login-input-bg;
+  border: 1.5px solid $login-border;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+
+  &:focus {
+    border-color: $login-primary;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(44, 95, 141, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.form-error {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: $login-error;
+  font-weight: 500;
+}
+
+.login-error {
+  text-align: center;
+  padding: 0.875rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  background-color: $login-error-bg;
+  color: $login-error;
+  border-radius: 8px;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  font-weight: 500;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: $login-success;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.01em;
+  margin-top: 0.5rem;
+
+  &:hover {
+    background-color: color.adjust($login-success, $lightness: -5%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+  }
+}
+
+// informacje testowe
+.login-info {
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  background-color: $login-info-bg;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: $login-text;
+  border: 1px solid $login-border;
+
+  p {
+    margin-bottom: 0.4rem;
+    line-height: 1.5;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .info-title {
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: #374151;
+  }
+}
+
+// ============================================
+// USER DASHBOARD STYLES
+// ============================================
+
+// dashboard colors
+$dashboard-bg: #f8f9fa;
+$dashboard-primary: #2c5f8d;
+$dashboard-card-bg: #ffffff;
+$dashboard-border: #e5e7eb;
+$dashboard-text: #1f2937;
+$dashboard-text-light: #6b7280;
+$dashboard-pending: #f59e0b;
+$dashboard-approved: #10b981;
+$dashboard-rejected: #dc2626;
+$dashboard-slot-hover: #eff6ff;
+
+// dashboard header
+.dashboard-header {
+  background-color: $dashboard-primary;
+  color: #ffffff;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 768px) {
+    padding: 1.5rem 2rem;
+  }
+}
+
+.dashboard-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.01em;
+
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
+
+.logout-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $dashboard-primary;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+}
+
+// dashboard main container
+.dashboard-container {
+  min-height: calc(100vh - 72px);
+  background-color: $dashboard-bg;
+  padding: 1.5rem 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: 2rem;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// section card
+.section-card {
+  background-color: $dashboard-card-bg;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid $dashboard-border;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $dashboard-text;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+// reservations list
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reservation-card {
+  padding: 1.25rem;
+  background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px solid $dashboard-border;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.reservation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.reservation-service {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $dashboard-text;
+  margin: 0;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  &.pending {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: $dashboard-pending;
+  }
+
+  &.approved {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: $dashboard-approved;
+  }
+
+  &.rejected {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: $dashboard-rejected;
+  }
+}
+
+.reservation-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  color: $dashboard-text-light;
+}
+
+.empty-state {
+  padding: 2rem;
+  text-align: center;
+  color: $dashboard-text-light;
+  font-size: 0.95rem;
+}
+
+// reservation form
+.reservation-form-grid {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $dashboard-text;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.field-select,
+.field-input {
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  color: $dashboard-text;
+  background-color: #ffffff;
+  border: 1.5px solid $dashboard-border;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+
+  &:focus {
+    border-color: $dashboard-primary;
+    box-shadow: 0 0 0 3px rgba(44, 95, 141, 0.1);
+  }
+}
+
+// available slots
+.slots-section {
+  margin-top: 2rem;
+}
+
+.slots-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $dashboard-text;
+  margin-bottom: 1rem;
+}
+
+.slots-grid {
+  display: grid;
+  gap: 0.75rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.slot-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 1.5px solid $dashboard-border;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $dashboard-slot-hover;
+    border-color: $dashboard-primary;
+  }
+}
+
+.slot-time {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: $dashboard-text;
+}
+
+.slot-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: $dashboard-primary;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: color.adjust($dashboard-primary, $lightness: -8%);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.no-slots-message {
+  padding: 1.5rem;
+  text-align: center;
+  color: $dashboard-text-light;
+  background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px dashed $dashboard-border;
+  font-size: 0.9rem;
+}
+
+// ============================================
+// ADMIN DASHBOARD STYLES
+// ============================================
+
+// admin specific colors
+$admin-conflict: #ef4444;
+$admin-conflict-bg: #fef2f2;
+
+// pending reservations section
+.pending-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  .pending-count {
+    background-color: $dashboard-pending;
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+}
+
+.pending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pending-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  border: 2px solid $dashboard-border;
+  transition: all 0.2s ease;
+
+  &.has-conflict {
+    border-color: $admin-conflict;
+    background-color: $admin-conflict-bg;
+  }
+}
+
+.conflict-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: $admin-conflict;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+
+  &::before {
+    content: "⚠";
+    font-size: 1.25rem;
+  }
+}
+
+.pending-card-content {
+  display: grid;
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.pending-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pending-service-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $dashboard-text;
+  margin: 0 0 0.5rem 0;
+}
+
+.pending-detail {
+  font-size: 0.875rem;
+  color: $dashboard-text-light;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  strong {
+    color: $dashboard-text;
+    font-weight: 600;
+  }
+}
+
+.pending-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: stretch;
+
+  @media (min-width: 768px) {
+    min-width: 140px;
+  }
+}
+
+.action-button {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+
+  &.approve {
+    background-color: $dashboard-approved;
+    color: #ffffff;
+
+    &:hover:not(:disabled) {
+      background-color: color.adjust($dashboard-approved, $lightness: -8%);
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      background-color: #d1d5db;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  &.reject {
+    background-color: #ffffff;
+    color: $dashboard-rejected;
+    border: 2px solid $dashboard-rejected;
+
+    &:hover {
+      background-color: $dashboard-rejected;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// statistics section
+.stats-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.stat-card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid $dashboard-border;
+  text-align: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+  }
+
+  &.pending {
+    border-left: 4px solid $dashboard-pending;
+  }
+
+  &.approved {
+    border-left: 4px solid $dashboard-approved;
+  }
+
+  &.rejected {
+    border-left: 4px solid $dashboard-rejected;
+  }
+}
+
+.stat-number {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+
+  &.pending {
+    color: $dashboard-pending;
+  }
+
+  &.approved {
+    color: $dashboard-approved;
+  }
+
+  &.rejected {
+    color: $dashboard-rejected;
+  }
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: $dashboard-text-light;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.empty-pending {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: $dashboard-text-light;
+  background-color: #fafafa;
+  border-radius: 10px;
+  border: 2px dashed $dashboard-border;
+
+  p {
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+// ============================================
+// PAGINATION STYLES
+// ============================================
+
+.section-header-with-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pagination-info {
+  font-size: 0.875rem;
+  color: $dashboard-text-light;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  background-color: $dashboard-bg;
+  border-radius: 6px;
+}
+
+.pending-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $dashboard-border;
+  
+  // mobile - jedna rezerwacja na całą szerokość
+  @media (max-width: 767px) {
+    gap: 0.75rem;
+  }
+}
+
+.pagination-btn {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $dashboard-primary;
+  background-color: #ffffff;
+  border: 2px solid $dashboard-primary;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  
+  // mobile - mniejsze przyciski
+  @media (max-width: 767px) {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8rem;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: $dashboard-primary;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(44, 95, 141, 0.2);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: $dashboard-border;
+    color: $dashboard-text-light;
+
+    &:hover {
+      background-color: #ffffff;
+      color: $dashboard-text-light;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.pagination-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $dashboard-text;
+  min-width: 60px;
+  text-align: center;
+  
+  // mobile - mniejszy tekst
+  @media (max-width: 767px) {
+    font-size: 0.85rem;
+    min-width: 50px;
+  }
+}
+
+// ============================================
+// MOBILE OPTIMIZATIONS FOR PENDING CARDS
+// ============================================
+
+// mobile - jedna rezerwacja widoczna, reszta w paginacji
+@media (max-width: 767px) {
+  .pending-card {
+    // karta na mobile - pełna szerokość
+    padding: 1.25rem;
+  }
+  
+  .pending-card-content {
+    // mobile - pionowy layout
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .pending-actions {
+    // mobile - przyciski poziomo obok siebie
+    flex-direction: row;
+    width: 100%;
+    
+    button {
+      flex: 1;
+    }
+  }
+  
+  .action-button {
+    // mobile - mniejsze padding
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+

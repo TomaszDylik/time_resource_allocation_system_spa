@@ -68,27 +68,29 @@ function UserDashboard() {
         title="Panel Użytkownika"
       />
 
-      <div>
-        {/* user's reservations list (pending, approved, rejected) */}
-        <UserReservationsList 
-          userReservations={userReservations}
-          allResources={allResources}
-        />
+      <div className="dashboard-container">
+        <div className="dashboard-grid">
+          {/* user's reservations list (pending, approved, rejected) */}
+          <UserReservationsList 
+            userReservations={userReservations}
+            allResources={allResources}
+          />
 
-        {/* reservation creation form */}
-        <ReservationForm 
-          allResources={allResources}
-          selectedResource={selectedResource}
-          handleResourceChange={handleResourceChange}
-          selectedDate={selectedDate}
-          handleDateChange={handleDateChange}
-          selectedHour={selectedHour}
-          handleHourChange={handleHourChange}
-          hourOptions={hourOptions}
-          availableSlots={availableSlots}
-          handleReservation={handleReservation}
-          shouldShowNoSlots={shouldShowNoSlots}
-        />
+          {/* reservation creation form */}
+          <ReservationForm 
+            allResources={allResources}
+            selectedResource={selectedResource}
+            handleResourceChange={handleResourceChange}
+            selectedDate={selectedDate}
+            handleDateChange={handleDateChange}
+            selectedHour={selectedHour}
+            handleHourChange={handleHourChange}
+            hourOptions={hourOptions}
+            availableSlots={availableSlots}
+            handleReservation={handleReservation}
+            shouldShowNoSlots={shouldShowNoSlots}
+          />
+        </div>
       </div>
     </div>
   );

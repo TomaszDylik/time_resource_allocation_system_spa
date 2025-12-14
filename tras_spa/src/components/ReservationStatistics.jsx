@@ -17,22 +17,22 @@ function ReservationStatistics(props) {
   }).length;
   
   return (
-    <div>
-      <h3>Statystyki wszystkich rezerwacji</h3>
-      <div>
-        <div>
-          <div>{pendingCount}</div>
-          <div>Oczekujące</div>
+    <div className="section-card">
+      <h3 className="section-title">Statystyki wszystkich rezerwacji</h3>
+      <div className="stats-grid">
+        <div className="stat-card pending">
+          <div className="stat-number pending">{pendingCount}</div>
+          <div className="stat-label">Oczekujące</div>
         </div>
         
-        <div>
-          <div>{approvedCount}</div>
-          <div>Zatwierdzone</div>
+        <div className="stat-card approved">
+          <div className="stat-number approved">{approvedCount}</div>
+          <div className="stat-label">Zatwierdzone</div>
         </div>
         
-        <div>
-          <div>{rejectedCount}</div>
-          <div>Odrzucone</div>
+        <div className="stat-card rejected">
+          <div className="stat-number rejected">{rejectedCount}</div>
+          <div className="stat-label">Odrzucone</div>
         </div>
       </div>
     </div>

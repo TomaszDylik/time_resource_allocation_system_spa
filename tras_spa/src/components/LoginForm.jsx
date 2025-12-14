@@ -5,22 +5,51 @@ function LoginForm(props) {
   
   return (
     <div>
-      <div>
-        <label>Email</label>
-        <input {...register("email", { required: "Email jest wymagany" })} />
-        {errors.email && <span>{errors.email.message}</span>}
+      <div className="form-group">
+        <label className="form-label">
+          Email
+        </label>
+        <input 
+          className="form-input"
+          type="email"
+          {...register("email", { required: "Email jest wymagany" })} 
+        />
+        {errors.email && (
+          <span className="form-error">
+            {errors.email.message}
+          </span>
+        )}
       </div>
 
-      <div>
-        <label>Hasło</label>
-        <input type="password" {...register("password", { required: "Hasło jest wymagane" })} />
-        {errors.password && <span>{errors.password.message}</span>}
+      <div className="form-group">
+        <label className="form-label">
+          Hasło
+        </label>
+        <input 
+          type="password" 
+          className="form-input"
+          {...register("password", { required: "Hasło jest wymagane" })} 
+        />
+        {errors.password && (
+          <span className="form-error">
+            {errors.password.message}
+          </span>
+        )}
       </div>
 
       {/* logging error - no in backend */}
-      {loginError && <div>{loginError}</div>}
+      {loginError && (
+        <div className="login-error">
+          {loginError}
+        </div>
+      )}
 
-      <button type="submit">Zaloguj się</button>
+      <button 
+        type="submit"
+        className="submit-button"
+      >
+        Zaloguj się
+      </button>
     </div>
   );
 }

@@ -36,26 +36,32 @@ function Login() {
 
   // render
   return (
-    <div>
-      <h2>Zaloguj się</h2>
-      
-      {/* show test data */}
-      <LoginInfo />
-      
-      {/* log form */}
-      {/* handleSubmit from React Hook Form:
-            1. prevents default form submission
-            2. check fileds validation
-            3. if OK -> calls onSubmit with form data
-            4. if NOT -> shows validation errors */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-          {/* component with email and password fields */}
-        <LoginForm 
-          register={register} 
-          errors={errors} 
-          loginError={loginError}
-        />
-      </form>
+    <div className="login-page">
+      <div className="login-container">
+        <div className="login-card">
+          <h2 className="login-title">
+            Zaloguj się
+          </h2>
+          
+          {/* show test data */}
+          <LoginInfo />
+          
+          {/* log form */}
+          {/* handleSubmit from React Hook Form:
+                1. prevents default form submission
+                2. check fileds validation
+                3. if OK -> calls onSubmit with form data
+                4. if NOT -> shows validation errors */}
+              <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+              {/* component with email and password fields */}
+            <LoginForm 
+              register={register} 
+              errors={errors} 
+              loginError={loginError}
+            />
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

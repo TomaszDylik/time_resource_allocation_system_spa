@@ -33,23 +33,25 @@ function AdminDashboard() {
         title="Panel Administratora"
       />
 
-      <div>
-        {/* pending reservations list with Approve/Reject buttons */}
-        <PendingReservationsList 
-          pendingReservations={pendingReservations}
-          allReservations={allReservations}
-          allResources={allResources}
-          allUsers={allUsers}
-          handleApprove={function(reservationId) {
-            handleApprove(reservationId, allReservations, allUsers, allResources, saveDataFunction);
-          }}
-          handleReject={function(reservationId) {
-            handleReject(reservationId, allReservations, allUsers, allResources, saveDataFunction);
-          }}
-        />
+      <div className="dashboard-container">
+        <div className="dashboard-grid">
+          {/* pending reservations list with Approve/Reject buttons */}
+          <PendingReservationsList 
+            pendingReservations={pendingReservations}
+            allReservations={allReservations}
+            allResources={allResources}
+            allUsers={allUsers}
+            handleApprove={function(reservationId) {
+              handleApprove(reservationId, allReservations, allUsers, allResources, saveDataFunction);
+            }}
+            handleReject={function(reservationId) {
+              handleReject(reservationId, allReservations, allUsers, allResources, saveDataFunction);
+            }}
+          />
 
-        {/* statistics */}
-        <ReservationStatistics allReservations={allReservations} />
+          {/* statistics */}
+          <ReservationStatistics allReservations={allReservations} />
+        </div>
       </div>
     </div>
   );
