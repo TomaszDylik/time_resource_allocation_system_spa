@@ -3,6 +3,7 @@ import { useAuth, AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import UserProfile from './pages/UserProfile';
 
 const ProtectedRoute = () => {
   const { user } = useAuth();
@@ -30,6 +31,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/user" element={<UserDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/dashboard" element={<DashboardRedirect />} />
           <Route path="/" element={<DashboardRedirect />} />
         </Route>
