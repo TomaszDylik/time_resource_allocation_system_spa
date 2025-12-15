@@ -2,6 +2,7 @@ import { useAuth } from '../context/AuthContext';
 import { useDatabase } from '../context/DatabaseContext';
 import { useEffect } from 'react';
 import { handleApprove, handleReject, updateReservationStatuses, handleDelete } from '../utils/reservationHandlers';
+import { exportReservationsToCSV } from '../utils/exportUtils';
 import DashboardHeader from '../components/DashboardHeader';
 import CalendarView from '../components/CalendarView';
 import RejectedReservations from '../components/RejectedReservations';
@@ -49,6 +50,11 @@ function AdminDashboard() {
     handleDelete(reservation.id, allReservations, allUsers, allResources, saveDataFunction);
   };
 
+  // handle CSV export
+  const handleExportCSV = function() {
+    exportReservationsToCSV(allReservations, allResources, allUsers);
+  };
+
   // render
   return (
     <div>
@@ -60,6 +66,13 @@ function AdminDashboard() {
       />
 
       <div className="dashboard-container">
+        {/* export button */}
+        <div className="export-section">
+          <button className="export-csv-btn" onClick={handleExportCSV}>
+            Eksportuj wszystkie rezerwacje do CSV
+          </button>
+        </div>
+
         {/* calendar view - all active reservations (pending, approved, completed) */}
         <CalendarView
           reservations={calendarReservations}
