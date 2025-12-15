@@ -1,11 +1,13 @@
 import { useAuth } from '../context/AuthContext';
 import { useDatabase } from '../context/DatabaseContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DashboardHeader from '../components/DashboardHeader';
-import UserReservationsList from '../components/UserReservationsList';
 import ReservationForm from '../components/ReservationForm';
+import CalendarView from '../components/CalendarView';
+import RejectedReservations from '../components/RejectedReservations';
 import { generateFreeTimeSlots } from '../utils/slotGenerator';
 import { handleReservation as handleReservationUtil, generateHourOptions } from '../utils/reservationUtils';
+import { handleDelete, updateReservationStatuses } from '../utils/reservationHandlers';
 
 // user dashboard component - client panel for viewing and creating reservations
 function UserDashboard() {
@@ -26,9 +28,24 @@ function UserDashboard() {
   const [selectedResource, setSelectedResource] = useState('');
   const [selectedHour, setSelectedHour] = useState('');
 
+  // update reservation statuses on component mount
+  useEffect(function() {
+    updateReservationStatuses(allReservations, allUsers, allResources, saveDataFunction);
+  }, [allReservations, allUsers, allResources, saveDataFunction]);
+
   // filter reservations - only current user's reservations
   const userReservations = allReservations.filter(function(reservation) {
     return reservation.userId === currentUser.id;
+  });
+  
+  // rejected reservations
+  const rejectedReservations = userReservations.filter(function(reservation) {
+    return reservation.status === 'rejected';
+  });
+  
+  // calendar reservations - user's pending, approved, completed (not rejected)
+  const calendarReservations = userReservations.filter(function(reservation) {
+    return reservation.status !== 'rejected';
   });
 
   // generate available slots based on selected filters
@@ -52,6 +69,11 @@ function UserDashboard() {
     handleReservationUtil(slot, currentUser, selectedResource, allReservations, allUsers, allResources, saveDataFunction);
   }
   
+  // delete reservation handler for calendar
+  function handleDeleteReservation(reservation) {
+    handleDelete(reservation.id, allReservations, allUsers, allResources, saveDataFunction);
+  }
+  
   // generate hour options list
   const hourOptions = generateHourOptions();
 
@@ -69,14 +91,8 @@ function UserDashboard() {
       />
 
       <div className="dashboard-container">
-        <div className="dashboard-grid">
-          {/* user's reservations list (pending, approved, rejected) */}
-          <UserReservationsList 
-            userReservations={userReservations}
-            allResources={allResources}
-          />
-
-          {/* reservation creation form */}
+        {/* reservation creation form */}
+        <div className="reservation-form-wrapper">
           <ReservationForm 
             allResources={allResources}
             selectedResource={selectedResource}
@@ -91,6 +107,23 @@ function UserDashboard() {
             shouldShowNoSlots={shouldShowNoSlots}
           />
         </div>
+        
+        {/* calendar view - user's reservations (pending, approved, completed) */}
+        <CalendarView
+          reservations={calendarReservations}
+          allResources={allResources}
+          allUsers={allUsers}
+          isAdminView={false}
+          onReservationClick={handleDeleteReservation}
+        />
+        
+        {/* rejected/cancelled reservations section */}
+        <RejectedReservations 
+          reservations={rejectedReservations}
+          allResources={allResources}
+          allUsers={allUsers}
+          isAdminView={false}
+        />
       </div>
     </div>
   );

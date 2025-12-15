@@ -1,9 +1,10 @@
 import { useAuth } from '../context/AuthContext';
 import { useDatabase } from '../context/DatabaseContext';
-import { handleApprove, handleReject } from '../utils/reservationHandlers';
+import { useEffect } from 'react';
+import { handleApprove, handleReject, updateReservationStatuses, handleDelete } from '../utils/reservationHandlers';
 import DashboardHeader from '../components/DashboardHeader';
-import PendingReservationsList from '../components/PendingReservationsList';
-import ReservationStatistics from '../components/ReservationStatistics';
+import CalendarView from '../components/CalendarView';
+import RejectedReservations from '../components/RejectedReservations';
 
 function AdminDashboard() {
   // get auth informations
@@ -18,10 +19,35 @@ function AdminDashboard() {
   const allUsers = databaseContext.users; 
   const saveDataFunction = databaseContext.saveData; 
 
-  // pendings
-  const pendingReservations = allReservations.filter(function(reservation) {
-    return reservation.status === 'pending';
+  // update reservation statuses on component mount
+  useEffect(function() {
+    updateReservationStatuses(allReservations, allUsers, allResources, saveDataFunction);
+  }, [allReservations, allUsers, allResources, saveDataFunction]);
+
+  // rejected reservations
+  const rejectedReservations = allReservations.filter(function(reservation) {
+    return reservation.status === 'rejected';
   });
+  
+  // active reservations for calendar (pending, approved, completed - not rejected)
+  const calendarReservations = allReservations.filter(function(reservation) {
+    return reservation.status !== 'rejected';
+  });
+  
+  // handle approve in calendar
+  const handleApproveReservation = function(reservationId) {
+    handleApprove(reservationId, allReservations, allUsers, allResources, saveDataFunction);
+  };
+  
+  // handle reject in calendar
+  const handleRejectReservation = function(reservationId) {
+    handleReject(reservationId, allReservations, allUsers, allResources, saveDataFunction);
+  };
+  
+  // handle reservation click in calendar (admin can delete/cancel)
+  const handleReservationClick = function(reservation) {
+    handleDelete(reservation.id, allReservations, allUsers, allResources, saveDataFunction);
+  };
 
   // render
   return (
@@ -34,24 +60,24 @@ function AdminDashboard() {
       />
 
       <div className="dashboard-container">
-        <div className="dashboard-grid">
-          {/* pending reservations list with Approve/Reject buttons */}
-          <PendingReservationsList 
-            pendingReservations={pendingReservations}
-            allReservations={allReservations}
-            allResources={allResources}
-            allUsers={allUsers}
-            handleApprove={function(reservationId) {
-              handleApprove(reservationId, allReservations, allUsers, allResources, saveDataFunction);
-            }}
-            handleReject={function(reservationId) {
-              handleReject(reservationId, allReservations, allUsers, allResources, saveDataFunction);
-            }}
-          />
-
-          {/* statistics */}
-          <ReservationStatistics allReservations={allReservations} />
-        </div>
+        {/* calendar view - all active reservations (pending, approved, completed) */}
+        <CalendarView
+          reservations={calendarReservations}
+          allResources={allResources}
+          allUsers={allUsers}
+          isAdminView={true}
+          onReservationClick={handleReservationClick}
+          onApprove={handleApproveReservation}
+          onReject={handleRejectReservation}
+        />
+        
+        {/* rejected/Cancelled reservations section */}
+        <RejectedReservations 
+          reservations={rejectedReservations}
+          allResources={allResources}
+          allUsers={allUsers}
+          isAdminView={true}
+        />
       </div>
     </div>
   );

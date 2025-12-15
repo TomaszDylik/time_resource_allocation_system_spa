@@ -83,3 +83,58 @@ export function handleReject(reservationId, allReservations, allUsers, allResour
   // save to localStorage
   saveDataFunction(dataToSave);
 }
+
+// delete reservation function
+export function handleDelete(reservationId, allReservations, allUsers, allResources, saveDataFunction) {
+  // filter reservation to delete
+  const updatedReservations = allReservations.filter(function(reservation) {
+    return reservation.id !== reservationId;
+  });
+
+  // save data
+  const dataToSave = {
+    users: allUsers,
+    resources: allResources,
+    reservations: updatedReservations
+  };
+  
+  saveDataFunction(dataToSave);
+}
+
+export function updateReservationStatuses(allReservations, allUsers, allResources, saveDataFunction) {
+  const currentTime = new Date().getTime();
+  let hasChanges = false;
+  
+  const updatedReservations = allReservations.map(function(reservation) {
+    // if reservation is approved and endTime has passed, mark as completed
+    if (reservation.status === 'approved' && reservation.endTime < currentTime) {
+      hasChanges = true;
+      return {
+        ...reservation,
+        status: 'completed'
+      };
+    }
+    
+    // ff reservation pending and endTime has passed -> rejected
+    if (reservation.status === 'pending' && reservation.endTime < currentTime) {
+      hasChanges = true;
+      return {
+        ...reservation,
+        status: 'rejected'
+      };
+    }
+    
+    return reservation;
+  });
+
+  if (hasChanges) {
+    const dataToSave = {
+      users: allUsers,
+      resources: allResources,
+      reservations: updatedReservations
+    };
+    saveDataFunction(dataToSave);
+  }
+  
+  return updatedReservations;
+}
