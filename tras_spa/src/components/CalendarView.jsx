@@ -5,7 +5,7 @@ function CalendarView(props) {
   const allResources = props.allResources;
   const allUsers = props.allUsers; 
   const isAdminView = props.isAdminView || false;
-  const onReservationClick = props.onReservationClick; // callback for clicking reservation (delete/cancel)
+  const onReservationClick = props.onReservationClick;
   
   // mobile detection
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -21,7 +21,7 @@ function CalendarView(props) {
     };
   }, []);
   
-  // get Monday of the week for a given date
+  // get monday of week
   const getMonday = (date) => {
     const d = new Date(date);
     const day = d.getDay();
@@ -29,18 +29,16 @@ function CalendarView(props) {
     return new Date(d.setDate(diff));
   };
   
-  // current week start date 
   const [weekStart, setWeekStart] = useState(getMonday(new Date()));
   
-  // bug fix - reset view when switching between mobile/desktop to avoid layout issues
   useEffect(() => {
     setWeekStart(getMonday(new Date()));
   }, [isMobile]);
   
-  // prev/next btns
+  // navigation
   const goToPrevious = () => {
     const newDate = new Date(weekStart);
-    newDate.setDate(newDate.getDate() - (isMobile ? 1 : 7)); // mobile 1, pc 7
+    newDate.setDate(newDate.getDate() - (isMobile ? 1 : 7)); // mobile: 1 day, desktop: 7 days
     setWeekStart(newDate);
   };
   
@@ -50,7 +48,7 @@ function CalendarView(props) {
     setWeekStart(newDate);
   };
   
-  // generate days to display (1 for mobile, 7 for desktop)
+  // generate days (1 mobile, 7 desktop)
   const daysToShow = isMobile ? 1 : 7;
   const days = [];
   for (let i = 0; i < daysToShow; i++) {
@@ -59,13 +57,13 @@ function CalendarView(props) {
     days.push(day);
   }
   
-  // time slots (9:00 - 18:00)
+  // time slots 9:00-18:00
   const timeSlots = [];
   for (let hour = 9; hour <= 18; hour++) {
     timeSlots.push(hour);
   }
   
-  // filter reservations for current view
+  // filter reservations for view
   const viewStart = days[0].setHours(0, 0, 0, 0);
   const viewEnd = days[days.length - 1].setHours(23, 59, 59, 999);
   
@@ -73,16 +71,15 @@ function CalendarView(props) {
     return reservation.startTime >= viewStart && reservation.startTime <= viewEnd;
   });
   
-  // get reservation tile style (position and height based on time)
+  // get tile position and height
   const getReservationStyle = (reservation) => {
     const startDate = new Date(reservation.startTime);
     const endDate = new Date(reservation.endTime);
     
     const startHour = startDate.getHours();
     const startMinute = startDate.getMinutes();
-    const duration = (endDate - startDate) / (1000 * 60); // in minutes
+    const duration = (endDate - startDate) / (1000 * 60); // minutes
     
-    // cell height for both mobile and desktop
     const cellHeight = 100;
     const top = ((startHour - 9) * cellHeight + (startMinute * cellHeight / 60));
     const height = (duration * cellHeight / 60);
@@ -93,7 +90,6 @@ function CalendarView(props) {
     };
   };
   
-  // check if reservation is on specific day
   const isReservationOnDay = (reservation, day) => {
     const reservationDate = new Date(reservation.startTime);
     return (
@@ -105,7 +101,6 @@ function CalendarView(props) {
   
   return (
     <div className="calendar-view" key={isMobile ? 'mobile' : 'desktop'}>
-      {/* header with navigation */}
       <div className="calendar-header">
         <button className="calendar-nav-btn" onClick={goToPrevious}>
           ← {isMobile ? 'Poprzedni dzień' : 'Poprzedni tydzień'}
@@ -127,9 +122,7 @@ function CalendarView(props) {
         </button>
       </div>
       
-      {/* calendar grid */}
       <div className="calendar-grid">
-        {/* time column */}
         <div className="time-column">
           <div className="time-header"></div>
           {timeSlots.map(function(hour) {
@@ -141,7 +134,6 @@ function CalendarView(props) {
           })}
         </div>
         
-        {/* day columns */}
         {days.map((day, dayIndex) => {
           const dayReservations = visibleReservations.filter((reservation) => {
             return isReservationOnDay(reservation, day);
@@ -151,19 +143,16 @@ function CalendarView(props) {
           
           return (
             <div key={dayIndex} className={`day-column ${isToday ? 'today' : ''}`}>
-              {/* day header */}
               <div className="day-header">
                 <div className="day-name">{day.toLocaleDateString('pl-PL', { weekday: 'short' })}</div>
                 <div className="day-date">{day.getDate()}</div>
               </div>
               
-              {/* time grid */}
               <div className="day-grid">
                 {timeSlots.map((hour) => {
                   return <div key={hour} className="grid-cell"></div>;
                 })}
                 
-                {/* reservation tiles */}
                 {dayReservations.map((reservation) => {
                   const resource = allResources.find((r) => {
                     return r.id === reservation.resourceId;
@@ -192,7 +181,6 @@ function CalendarView(props) {
                         <div className="tile-user">{user.name}</div>
                       )}
                       
-                      {/* admin action buttons */}
                       {isAdminView && reservation.status === 'pending' && (
                         <div className="tile-actions" onClick={(e) => e.stopPropagation()}>
                           <button 
@@ -212,7 +200,6 @@ function CalendarView(props) {
                         </div>
                       )}
                       
-                      {/* delete button for approvedd reservations (admin) */}
                       {isAdminView && (reservation.status === 'approved' || reservation.status === 'completed') && (
                         <div className="tile-actions" onClick={(e) => e.stopPropagation()}>
                           <button 
@@ -225,7 +212,6 @@ function CalendarView(props) {
                         </div>
                       )}
                       
-                      {/* delete button for pending/approved reservations (user) */}
                       {!isAdminView && (reservation.status === 'pending' || reservation.status === 'approved') && (
                         <div className="tile-actions" onClick={(e) => e.stopPropagation()}>
                           <button 

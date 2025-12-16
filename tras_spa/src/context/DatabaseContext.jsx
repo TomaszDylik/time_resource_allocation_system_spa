@@ -4,8 +4,8 @@ import { INITIAL_DATA } from '../data/mockData';
 const DatabaseContext = createContext();
 
 export const DatabaseProvider = ({ children }) => {
-  const [data, setData] = useState(null); 
-  const [loading, setLoading] = useState(true); 
+  const [data, setData] = useState(null); // database state
+  const [loading, setLoading] = useState(true); // loading state
 
   useEffect(() => {
     const localData = localStorage.getItem('spa_db');
@@ -16,7 +16,7 @@ export const DatabaseProvider = ({ children }) => {
       localStorage.setItem('spa_db', JSON.stringify(INITIAL_DATA));
       setData(INITIAL_DATA);
     }
-    setLoading(false); 
+    setLoading(false); // ready
   }, []);
 
   const save = (newData) => {
@@ -28,7 +28,7 @@ export const DatabaseProvider = ({ children }) => {
     users: data?.users || [],
     resources: data?.resources || [],
     reservations: data?.reservations || [],
-    saveData: save 
+    saveData: save
   };
 
   if (loading) return <div>Ładowanie systemu...</div>;

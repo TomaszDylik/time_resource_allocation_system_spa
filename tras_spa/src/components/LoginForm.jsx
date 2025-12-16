@@ -37,7 +37,6 @@ function LoginForm(props) {
         )}
       </div>
 
-      {/* logging error - no in backend */}
       {loginError && (
         <div className="login-error">
           {loginError}

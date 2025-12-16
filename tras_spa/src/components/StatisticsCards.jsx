@@ -2,14 +2,14 @@ import { useMemo } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 function StatisticsCards({ reservations, resources }) {
-  // analytical module - calculate monthly occupancy rate
+  // monthly occupancy analytics - memoized
   const analytics = useMemo(function() {
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     
-    // filter current month reservations
+    // filter current month
     const monthReservations = reservations.filter(function(r) {
       const resDate = new Date(r.startTime);
       return resDate.getMonth() === currentMonth && 
@@ -17,13 +17,12 @@ function StatisticsCards({ reservations, resources }) {
              (r.status === 'pending' || r.status === 'approved' || r.status === 'completed');
     });
     
-    // total available hours in month (days * 9 hours per day)
+    // total hours (days * 9h per day)
     const totalAvailableHours = daysInMonth * 9;
     
-    // occupied hours
     const occupiedHours = monthReservations.length;
     
-    // occupancy percentage
+    // percentages
     const occupancyRate = Math.round((occupiedHours / totalAvailableHours) * 100);
     const freeRate = 100 - occupancyRate;
     

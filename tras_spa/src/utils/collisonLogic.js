@@ -4,15 +4,15 @@ export const isReservationConflicting = (newStart, newEnd, resourceId, allReserv
     const end = new Date(newEnd).getTime();
 
     for (let reservation of allReservations) {
-        
+        // check overlap
         if (
             reservation.resourceId === resourceId &&
             start < reservation.endTime && 
             end > reservation.startTime
         ) {
-            return true; 
+            return true; // conflict found
         }
     }
     
-    return false; 
+    return false; // no conflict 
 }

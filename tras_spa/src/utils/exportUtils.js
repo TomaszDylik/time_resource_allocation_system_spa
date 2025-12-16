@@ -1,8 +1,7 @@
 export const exportReservationsToCSV = (reservations, resources, users) => {
-  // CSV header
   const header = 'Data,Godzina rozpoczęcia,Godzina zakończenia,Usługa,Klient,Email,Status\n';
 
-  // convert reservations to CSV rows
+
   const rows = reservations
     .map((reservation) => {
       const resource = resources.find((r) => r.id === reservation.resourceId);
@@ -26,10 +25,9 @@ export const exportReservationsToCSV = (reservations, resources, users) => {
     })
     .join('\n');
 
-  // header and rows
   const csvContent = header + rows;
 
-  // create blob and download
+
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -41,7 +39,6 @@ export const exportReservationsToCSV = (reservations, resources, users) => {
   link.click();
   document.body.removeChild(link);
 
-  // clean up the url
   URL.revokeObjectURL(url);
 };
 

@@ -1,7 +1,6 @@
 function UserProfileForm({ formData, errors, onSubmit, onChange, onCancel }) {
   return (
     <form className="profile-form" onSubmit={onSubmit}>
-      {/* name field */}
       <div className="form-group">
         <label className="form-label">Imię i nazwisko</label>
         <input 
@@ -14,7 +13,6 @@ function UserProfileForm({ formData, errors, onSubmit, onChange, onCancel }) {
         {errors.name && <span className="field-error">{errors.name}</span>}
       </div>
       
-      {/* email field - valid format */}
       <div className="form-group">
         <label className="form-label">Email</label>
         <input 
@@ -27,7 +25,6 @@ function UserProfileForm({ formData, errors, onSubmit, onChange, onCancel }) {
         {errors.email && <span className="field-error">{errors.email}</span>}
       </div>
       
-      {/* password section */}
       <div className="password-section">
         <h3 className="subsection-title">Zmiana hasła</h3>
         <div className="form-group">
@@ -44,7 +41,6 @@ function UserProfileForm({ formData, errors, onSubmit, onChange, onCancel }) {
         </div>
       </div>
       
-      {/* action buttons */}
       <div className="profile-actions">
         <button type="button" className="cancel-btn" onClick={onCancel}>
           Anuluj

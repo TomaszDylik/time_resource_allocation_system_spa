@@ -43,15 +43,15 @@ reservations: [
         id: 1,
         userId: 2,
         resourceId: 1,
-        startTime: new Date().setHours(14, 0, 0, 0) + 86400000, // jutro 14:00
-        endTime: new Date().setHours(15, 0, 0, 0) + 86400000,   // jutro 15:00
+        startTime: new Date().setHours(14, 0, 0, 0) + 86400000, // tomorrow 14:00
+        endTime: new Date().setHours(15, 0, 0, 0) + 86400000, // tomorrow 15:00
         status: 'pending' 
     },
     {
         id: 2,
         userId: 2,
         resourceId: 2,
-        startTime: new Date().setHours(10, 0, 0, 0) + 172800000, // pojutrze 10:00
+        startTime: new Date().setHours(10, 0, 0, 0) + 172800000, // day after tomorrow
         endTime: new Date().setHours(10, 30, 0, 0) + 172800000,
         status: 'approved'
     },
@@ -59,7 +59,7 @@ reservations: [
         id: 3,
         userId: 2,
         resourceId: 1,
-        startTime: new Date().setHours(16, 0, 0, 0) + 259200000, // za 3 dni 16:00
+        startTime: new Date().setHours(16, 0, 0, 0) + 259200000, // in 3 days
         endTime: new Date().setHours(17, 0, 0, 0) + 259200000,
         status: 'rejected'
     },
@@ -67,16 +67,16 @@ reservations: [
         id: 4,
         userId: 2,
         resourceId: 3,
-        startTime: new Date().setHours(9, 0, 0, 0) - 86400000, // wczoraj 9:00
-        endTime: new Date().setHours(10, 30, 0, 0) - 86400000, // wczoraj 10:30
-        status: 'completed' // approved reservation that ended yesterday
+        startTime: new Date().setHours(9, 0, 0, 0) - 86400000, // yesterday
+        endTime: new Date().setHours(10, 30, 0, 0) - 86400000,
+        status: 'completed' // ended yesterday
     },
     {
         id: 5,
         userId: 2,
         resourceId: 2,
-        startTime: new Date().setHours(15, 0, 0, 0) - 86400000, // wczoraj 15:00
-        endTime: new Date().setHours(15, 30, 0, 0) - 86400000, // wczoraj 15:30
-        status: 'completed' // rejected reservation that would have ended yesterday
+        startTime: new Date().setHours(15, 0, 0, 0) - 86400000, // yesterday
+        endTime: new Date().setHours(15, 30, 0, 0) - 86400000,
+        status: 'completed'
     }]
 };

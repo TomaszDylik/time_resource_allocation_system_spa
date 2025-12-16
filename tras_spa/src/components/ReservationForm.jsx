@@ -1,15 +1,15 @@
 function ReservationForm(props) {
-  const allResources = props.allResources; // all services in barber
-  const selectedResource = props.selectedResource; // ID choosen service
-  const handleResourceChange = props.handleResourceChange; // user changes selection of service
+  const allResources = props.allResources; // all services
+  const selectedResource = props.selectedResource; // selected service id
+  const handleResourceChange = props.handleResourceChange; // on change handler
   const selectedDate = props.selectedDate; // selected date
-  const handleDateChange = props.handleDateChange; // user changes selection of date
-  const selectedHour = props.selectedHour; // user selected hour (optional) 
-  const handleHourChange = props.handleHourChange; // user changes selection of hour
-  const hourOptions = props.hourOptions; // list of all possible hours (9:00, 9:30, ...)
-  const availableSlots = props.availableSlots; // list of available slots 
-  const handleReservation = props.handleReservation; // function creating a new reservation
-  const shouldShowNoSlots = props.shouldShowNoSlots; // "No available slots" message 
+  const handleDateChange = props.handleDateChange; // on change handler
+  const selectedHour = props.selectedHour; // optional hour filter
+  const handleHourChange = props.handleHourChange; // on change handler
+  const hourOptions = props.hourOptions; // hour options list
+  const availableSlots = props.availableSlots; // available time slots
+  const handleReservation = props.handleReservation; // create reservation
+  const shouldShowNoSlots = props.shouldShowNoSlots; // show no slots message 
   
   return (
     <div className="section-card">
@@ -21,7 +21,6 @@ function ReservationForm(props) {
           <select className="field-select" value={selectedResource} onChange={handleResourceChange}>
             <option value="">-- Wybierz usługę --</option>
             
-            {/*generate all services as options*/}
             {allResources.map(function(resource) {
               return (
                 <option key={resource.id} value={resource.id}>
@@ -40,7 +39,7 @@ function ReservationForm(props) {
             type="date" 
             value={selectedDate}
             onChange={handleDateChange}
-            min={new Date().toISOString().split('T')[0]} // today minimum
+            min={new Date().toISOString().split('T')[0]}
           />
         </div>
 
@@ -60,7 +59,6 @@ function ReservationForm(props) {
         </div>
       </div>
 
-      {/* availaiable slots */}
       {availableSlots.length > 0 && (
         <div className="slots-section">
           <h3 className="slots-title">Dostępne terminy (4 najbliższe {selectedHour !== '' ? 'dla godziny ' + selectedHour : ''}):</h3>
@@ -83,7 +81,6 @@ function ReservationForm(props) {
         </div>
       )}
 
-      {/* no slots available */}
       {shouldShowNoSlots && (
         <p className="no-slots-message">Brak dostępnych terminów w wybranym dniu.</p>
       )}

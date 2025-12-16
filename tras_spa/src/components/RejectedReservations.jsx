@@ -30,7 +30,7 @@ function RejectedReservations(props) {
   const endIndex = startIndex + itemsPerPage;
   const currentReservations = reservations.slice(startIndex, endIndex);
   
-  // bug fix - reset to page 0 if current page becomes invalid after data changes
+  // reset page if out of bounds
   useEffect(() => {
     if (currentPage >= totalPages && totalPages > 0) {
       setCurrentPage(0);

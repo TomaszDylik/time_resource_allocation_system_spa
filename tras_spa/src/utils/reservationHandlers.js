@@ -1,33 +1,32 @@
 import { isReservationConflicting } from './collisonLogic';
 
-// confirmation function
+// approve reservation
 export function handleApprove(reservationId, allReservations, allUsers, allResources, saveDataFunction) {
-  // approved
+  // get approved reservations
   const approvedReservations = allReservations.filter(function(reservation) {
     return reservation.status === 'approved';
   });
   
-  // find target reservation
+  // find target
   const targetReservation = allReservations.find(function(reservation) {
     return reservation.id === reservationId;
   });
   
-  // check conflicts
+  // check conflict
   const hasConflict = isReservationConflicting(
     targetReservation.startTime,
     targetReservation.endTime,
     targetReservation.resourceId,
     approvedReservations
   );
-  // if conflict alert and stop
+  // if conflict - stop
   if (hasConflict) {
     alert('Nie można zatwierdzić - istnieje konflikt z inną zatwierdzoną rezerwacją!');
     return;
   }
 
-  // if no conflict approve
+  // approve reservation
   const updatedReservations = allReservations.map(function(reservation) {
-    // change status to approved
     if (reservation.id === reservationId) {
       const approvedReservation = {
         id: reservation.id,
@@ -35,7 +34,7 @@ export function handleApprove(reservationId, allReservations, allUsers, allResou
         resourceId: reservation.resourceId,
         startTime: reservation.startTime,
         endTime: reservation.endTime,
-        status: 'approved' // main change
+        status: 'approved' // change status
       };
       return approvedReservation;
     } else {
@@ -43,18 +42,17 @@ export function handleApprove(reservationId, allReservations, allUsers, allResou
     }
   });
 
-  // object to save
+  // save to localStorage
   const dataToSave = {
     users: allUsers,
     resources: allResources,
     reservations: updatedReservations
   };
   
-  // push to localStorage
   saveDataFunction(dataToSave);
 }
 
-// rejection function
+// reject reservation
 export function handleReject(reservationId, allReservations, allUsers, allResources, saveDataFunction) {
   // change status to rejected
   const updatedReservations = allReservations.map(function(reservation) {
@@ -65,7 +63,7 @@ export function handleReject(reservationId, allReservations, allUsers, allResour
         resourceId: reservation.resourceId,
         startTime: reservation.startTime,
         endTime: reservation.endTime,
-        status: 'rejected' // main change
+        status: 'rejected' // change status
       };
       return rejectedReservation;
     } else {
@@ -73,20 +71,18 @@ export function handleReject(reservationId, allReservations, allUsers, allResour
     }
   });
 
-  // object to save
+  // save to localStorage
   const dataToSave = {
     users: allUsers,
     resources: allResources,
     reservations: updatedReservations
   };
   
-  // save to localStorage
   saveDataFunction(dataToSave);
 }
 
-// delete reservation function
+// delete reservation
 export function handleDelete(reservationId, allReservations, allUsers, allResources, saveDataFunction) {
-  // filter reservation to delete
   const updatedReservations = allReservations.filter(function(reservation) {
     return reservation.id !== reservationId;
   });
@@ -106,7 +102,7 @@ export function updateReservationStatuses(allReservations, allUsers, allResource
   let hasChanges = false;
   
   const updatedReservations = allReservations.map(function(reservation) {
-    // if reservation is approved and endTime has passed, mark as completed
+    // approved -> completed if ended
     if (reservation.status === 'approved' && reservation.endTime < currentTime) {
       hasChanges = true;
       return {
@@ -115,7 +111,7 @@ export function updateReservationStatuses(allReservations, allUsers, allResource
       };
     }
     
-    // ff reservation pending and endTime has passed -> rejected
+    // pending -> rejected if ended
     if (reservation.status === 'pending' && reservation.endTime < currentTime) {
       hasChanges = true;
       return {

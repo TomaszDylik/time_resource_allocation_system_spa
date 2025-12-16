@@ -20,9 +20,9 @@ export const AuthProvider = ({ children }) => {
     if (foundUser) {
       setUser(foundUser);
       localStorage.setItem('spa_user', JSON.stringify(foundUser)); 
-      return true; // sukces logowania
+      return true; // success
     }
-    return false; // blad logowania
+    return false; // invalid credentials
   };
 
   const logout = () => {

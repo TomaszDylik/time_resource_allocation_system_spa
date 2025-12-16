@@ -7,7 +7,7 @@ import UserProfileForm from '../components/UserProfileForm';
 import { validateProfileForm, updateUserProfile } from '../utils/profileHelpers';
 
 function UserProfile() {
-  // get context
+  // context
   const { user: currentUser, logout, login } = useAuth();
   const { users: allUsers, reservations: allReservations, resources: allResources, saveData } = useDatabase();
   const navigate = useNavigate();
@@ -18,41 +18,37 @@ function UserProfile() {
     email: currentUser?.email || '',
     newPassword: ''
   });
-  // validation error states
+
   const [errors, setErrors] = useState({});
   
-  // access control (only for users)
+  // only for users
   if (currentUser?.role === 'admin') {
     navigate('/admin');
     return null;
   }
   
-  // handle form field changes
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     setErrors(prev => ({ ...prev, [name]: '' }));
   }
   
-  // handle form submission
+  // save profile
   function handleSave(e) {
-    // prevent default form submission
     e.preventDefault();
     
-    // validate form fields using helper function
-    // if any errors, set error state and abort save
+    // validate
     const validationErrors = validateProfileForm(formData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
     
-    // update user 
+    // update
     updateUserProfile(currentUser, formData, allUsers, allReservations, allResources, saveData, login);
     
     alert('Profil zaktualizowany!');
-    // clear password field after successful save
-    setFormData(prev => ({ ...prev, newPassword: '' }));
+    setFormData(prev => ({ ...prev, newPassword: '' })); // clear password
   }
   
   return (

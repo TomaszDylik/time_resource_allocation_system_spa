@@ -7,7 +7,7 @@ function PaginationControls(props) {
   const itemsCount = props.itemsCount;
   const itemsPerPage = props.itemsPerPage;
 
-  // not show pagination if not needed
+  // hide if not needed
   if (itemsCount <= itemsPerPage) {
     return null;
   }

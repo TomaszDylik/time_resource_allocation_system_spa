@@ -1,36 +1,36 @@
 export function validateProfileForm(formData) {
   const errors = {};
   
-  // name is required - no empty
+  // name required
   if (!formData.name.trim()) errors.name = 'Imię wymagane';
   
-  // email is required must match email format
+  // email required + format
   if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Nieprawidłowy email';
   
   return errors;
 }
 
 export function updateUserProfile(currentUser, formData, allUsers, allReservations, allResources, saveData, login) {
-  // Update user while keeping their ID
+  // update user
   const updatedUsers = allUsers.map(user => 
     user.id === currentUser.id 
       ? { 
           ...user, 
           name: formData.name, 
           email: formData.email, 
-          password: formData.newPassword || user.password // Keep old password if new one not provided
+          password: formData.newPassword || user.password // keep old if empty
         }
       : user
   );
   
-  // save complete database 
+  // save
   saveData({ 
     users: updatedUsers,
     reservations: allReservations,
     resources: allResources
   });
   
-  // relogin with updated user data
+  // relogin with updated data
   const updatedCurrentUser = updatedUsers.find(u => u.id === currentUser.id);
   login(updatedCurrentUser);
   

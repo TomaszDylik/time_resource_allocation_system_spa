@@ -9,61 +9,56 @@ import RejectedReservations from '../components/RejectedReservations';
 import StatisticsCards from '../components/StatisticsCards';
 
 function AdminDashboard() {
-  // get auth informations
+  // auth context
   const authContext = useAuth();
   const currentUser = authContext.user; 
   const logoutFunction = authContext.logout; 
   
-  // get local storage data
+  // database context
   const databaseContext = useDatabase();
   const allReservations = databaseContext.reservations; 
   const allResources = databaseContext.resources; 
   const allUsers = databaseContext.users; 
-  const saveDataFunction = databaseContext.saveData; 
+  const saveDataFunction = databaseContext.saveData;
 
-  // update reservation statuses on component mount
+  // update statuses on mount
   useEffect(function() {
     updateReservationStatuses(allReservations, allUsers, allResources, saveDataFunction);
   }, [allReservations, allUsers, allResources, saveDataFunction]);
 
-  // rejected reservations - memoized to avoid unnecessary recalculations
+  // rejected reservations - memoized
   const rejectedReservations = useMemo(function() {
     return allReservations.filter(function(reservation) {
       return reservation.status === 'rejected';
     });
   }, [allReservations]);
   
-  // active reservations for calendar (pending, approved, completed - not rejected) - memoized
+  // calendar reservations (not rejected) - memoized
   const calendarReservations = useMemo(function() {
     return allReservations.filter(function(reservation) {
       return reservation.status !== 'rejected';
     });
   }, [allReservations]);
   
-  // handle approve in calendar
+  // handlers
   const handleApproveReservation = function(reservationId) {
     handleApprove(reservationId, allReservations, allUsers, allResources, saveDataFunction);
   };
   
-  // handle reject in calendar
   const handleRejectReservation = function(reservationId) {
     handleReject(reservationId, allReservations, allUsers, allResources, saveDataFunction);
   };
   
-  // handle reservation click in calendar (admin can delete/cancel)
   const handleReservationClick = function(reservation) {
     handleDelete(reservation.id, allReservations, allUsers, allResources, saveDataFunction);
   };
 
-  // handle CSV export
   const handleExportCSV = function() {
     exportReservationsToCSV(allReservations, allResources, allUsers);
   };
 
-  // render
   return (
     <div>
-      {/* header and logout */}
       <DashboardHeader 
         currentUser={currentUser} 
         logoutFunction={logoutFunction} 
@@ -71,14 +66,12 @@ function AdminDashboard() {
       />
 
       <div className="dashboard-container">
-        {/* export button */}
         <div className="export-section">
           <button className="export-csv-btn" onClick={handleExportCSV}>
             Eksportuj wszystkie rezerwacje do CSV
           </button>
         </div>
 
-        {/* calendar view - all active reservations (pending, approved, completed) */}
         <CalendarView
           reservations={calendarReservations}
           allResources={allResources}
@@ -89,7 +82,6 @@ function AdminDashboard() {
           onReject={handleRejectReservation}
         />
         
-        {/* rejected/Cancelled reservations section */}
         <RejectedReservations 
           reservations={rejectedReservations}
           allResources={allResources}
@@ -97,7 +89,6 @@ function AdminDashboard() {
           isAdminView={true}
         />
 
-        {/* analytics module */}
         <StatisticsCards 
           reservations={allReservations}
           resources={allResources}
