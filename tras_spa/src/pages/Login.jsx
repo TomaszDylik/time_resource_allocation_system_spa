@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LoginForm from '../components/LoginForm';
 import LoginInfo from '../components/LoginInfo';
 
@@ -14,10 +14,18 @@ function Login() {
   
   const authContext = useAuth();
   const login = authContext.login;
+  const user = authContext.user;
   
   const navigate = useNavigate();
   
   const [loginError, setLoginError] = useState('');
+
+  // redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   function onSubmit(data) {
     const success = login(data.email, data.password);
