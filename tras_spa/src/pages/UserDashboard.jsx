@@ -74,7 +74,7 @@ function UserDashboard() {
   
   // wrapper for reservation handler
   function handleReservation(slot) {
-    handleReservationUtil(slot, currentUser, allReservations, allUsers, allResources, saveDataFunction);
+    handleReservationUtil(slot, currentUser, selectedResource, allReservations, allUsers, allResources, saveDataFunction);
   }
   
   // delete reservation handler for calendar

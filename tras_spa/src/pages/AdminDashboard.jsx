@@ -6,6 +6,7 @@ import { exportReservationsToCSV } from '../utils/exportUtils';
 import DashboardHeader from '../components/DashboardHeader';
 import CalendarView from '../components/CalendarView';
 import RejectedReservations from '../components/RejectedReservations';
+import StatisticsCards from '../components/StatisticsCards';
 
 function AdminDashboard() {
   // get auth informations
@@ -94,6 +95,12 @@ function AdminDashboard() {
           allResources={allResources}
           allUsers={allUsers}
           isAdminView={true}
+        />
+
+        {/* analytics module */}
+        <StatisticsCards 
+          reservations={allReservations}
+          resources={allResources}
         />
       </div>
     </div>
