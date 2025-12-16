@@ -1,6 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import { useDatabase } from '../context/DatabaseContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import DashboardHeader from '../components/DashboardHeader';
 import ReservationForm from '../components/ReservationForm';
 import CalendarView from '../components/CalendarView';
@@ -33,23 +33,31 @@ function UserDashboard() {
     updateReservationStatuses(allReservations, allUsers, allResources, saveDataFunction);
   }, [allReservations, allUsers, allResources, saveDataFunction]);
 
-  // filter reservations - only current user's reservations
-  const userReservations = allReservations.filter(function(reservation) {
-    return reservation.userId === currentUser.id;
-  });
+  // filter reservations - only current user's reservations - memoized
+  const userReservations = useMemo(function() {
+    return allReservations.filter(function(reservation) {
+      return reservation.userId === currentUser.id;
+    });
+  }, [allReservations, currentUser.id]);
   
-  // rejected reservations
-  const rejectedReservations = userReservations.filter(function(reservation) {
-    return reservation.status === 'rejected';
-  });
+  // rejected reservations - memoized
+  const rejectedReservations = useMemo(function() {
+    return userReservations.filter(function(reservation) {
+      return reservation.status === 'rejected';
+    });
+  }, [userReservations]);
   
-  // calendar reservations - user's pending, approved, completed (not rejected)
-  const calendarReservations = userReservations.filter(function(reservation) {
-    return reservation.status !== 'rejected';
-  });
+  // calendar reservations - user's pending, approved, completed (not rejected) - memoized
+  const calendarReservations = useMemo(function() {
+    return userReservations.filter(function(reservation) {
+      return reservation.status !== 'rejected';
+    });
+  }, [userReservations]);
 
-  // generate available slots based on selected filters
-  const availableSlots = generateFreeTimeSlots(selectedDate, selectedResource, selectedHour, allReservations, allResources);
+  // generate available slots based on selected filters - memoized expensive calculation
+  const availableSlots = useMemo(function() {
+    return generateFreeTimeSlots(selectedDate, selectedResource, selectedHour, allReservations, allResources);
+  }, [selectedDate, selectedResource, selectedHour, allReservations, allResources]);
 
   // form change handlers - update state when user changes form values
   function handleDateChange(event) {
@@ -66,7 +74,7 @@ function UserDashboard() {
   
   // wrapper for reservation handler
   function handleReservation(slot) {
-    handleReservationUtil(slot, currentUser, selectedResource, allReservations, allUsers, allResources, saveDataFunction);
+    handleReservationUtil(slot, currentUser, allReservations, allUsers, allResources, saveDataFunction);
   }
   
   // delete reservation handler for calendar
@@ -74,8 +82,10 @@ function UserDashboard() {
     handleDelete(reservation.id, allReservations, allUsers, allResources, saveDataFunction);
   }
   
-  // generate hour options list
-  const hourOptions = generateHourOptions();
+  // generate hour options list - memoized static list
+  const hourOptions = useMemo(function() {
+    return generateHourOptions();
+  }, []);
 
   // determine if "No available slots" message should be shown
   const shouldShowNoSlots = selectedDate !== '' && selectedResource !== '' && availableSlots.length === 0;

@@ -1,6 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import { useDatabase } from '../context/DatabaseContext';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { handleApprove, handleReject, updateReservationStatuses, handleDelete } from '../utils/reservationHandlers';
 import { exportReservationsToCSV } from '../utils/exportUtils';
 import DashboardHeader from '../components/DashboardHeader';
@@ -25,15 +25,19 @@ function AdminDashboard() {
     updateReservationStatuses(allReservations, allUsers, allResources, saveDataFunction);
   }, [allReservations, allUsers, allResources, saveDataFunction]);
 
-  // rejected reservations
-  const rejectedReservations = allReservations.filter(function(reservation) {
-    return reservation.status === 'rejected';
-  });
+  // rejected reservations - memoized to avoid unnecessary recalculations
+  const rejectedReservations = useMemo(function() {
+    return allReservations.filter(function(reservation) {
+      return reservation.status === 'rejected';
+    });
+  }, [allReservations]);
   
-  // active reservations for calendar (pending, approved, completed - not rejected)
-  const calendarReservations = allReservations.filter(function(reservation) {
-    return reservation.status !== 'rejected';
-  });
+  // active reservations for calendar (pending, approved, completed - not rejected) - memoized
+  const calendarReservations = useMemo(function() {
+    return allReservations.filter(function(reservation) {
+      return reservation.status !== 'rejected';
+    });
+  }, [allReservations]);
   
   // handle approve in calendar
   const handleApproveReservation = function(reservationId) {
