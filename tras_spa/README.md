@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# TRAS - Time & Resource Allocation System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Single Page Application (SPA) for managing time and resource allocation in organizations. Built with React 19 for modern, efficient employee scheduling and project management.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **User Dashboard** - Employee view with personal schedule and task management
+- **Admin Dashboard** - Administrative panel for resource allocation and team oversight
+- **Calendar View** - Interactive calendar for visualizing time allocations
+- **User Profiles** - Personal information and availability management
+- **Authentication System** - Role-based access control (User/Admin)
+- **Data Visualization** - Charts and analytics using Recharts
+- **Responsive Design** - Mobile-friendly interface with modern UI components
 
-### `npm start`
+## 🛠️ Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React 19** - Latest React version with improved performance
+- **React Router v7** - Client-side routing
+- **Framer Motion** - Smooth animations and transitions
+- **Recharts** - Data visualization library
+- **React Hook Form** - Form validation and management
+- **Sass** - CSS preprocessing
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## 📁 Project Structure
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+src/
+├── components/       # Reusable UI components
+├── context/          # React Context (AuthContext, etc.)
+├── data/            # Mock data and constants
+├── pages/           # Main application pages
+│   ├── Login.jsx
+│   ├── UserDashboard.jsx
+│   ├── AdminDashboard.jsx
+│   └── UserProfile.jsx
+├── styles/          # Global styles and SCSS modules
+├── utils/           # Helper functions and utilities
+└── App.jsx          # Main application component
+```
 
-### `npm run build`
+## 🚦 Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js 16+ 
+- npm or yarn
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+```bash
+# Install dependencies
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Start development server
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## 🔐 Authentication
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The application includes a role-based authentication system:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **User Role** - Access to personal dashboard and profile
+- **Admin Role** - Full access to resource management and team oversight
 
-### Code Splitting
+Routes are protected using React Router's `ProtectedRoute` component.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🎨 Design
 
-### Analyzing the Bundle Size
+- Modern, clean interface with intuitive navigation
+- Responsive design optimized for desktop and mobile
+- Consistent color scheme and typography
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📊 Key Components
 
-### Making a Progressive Web App
+### Dashboard
+- Real-time overview of tasks and allocations
+- Visual charts for resource utilization
+- Quick actions and notifications
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Calendar View
+- Interactive calendar interface
+- Multi-user scheduling
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### User Management
+- Profile editing and preferences
+- Availability settings
+- Performance metrics
